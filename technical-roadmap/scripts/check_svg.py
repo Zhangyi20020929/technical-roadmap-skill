@@ -33,6 +33,20 @@ def inspect_svg(filename, ungrouped_dir=None):
             errors.append('Object group is missing an ID.')
         if any(k in g.attrib for k in ('transform', 'style', 'fill', 'stroke')):
             errors.append('Parent group has inherited styles or transforms: ' + g.get('id', '?'))
+    black = {'#000000', '#000', 'black'}
+    for element in root.iter():
+        stroke = element.get('stroke', '').lower()
+        label = element.get('id', element.tag.rsplit('}', 1)[-1])
+        if stroke and stroke != 'none' and stroke not in black:
+            errors.append('Outline or connector stroke must be black: ' + label)
+        if element.tag == '{' + NS['s'] + '}rect' and stroke not in black:
+            errors.append('Rectangle requires an explicit black outline: ' + label)
+    for g in groups:
+        if g.get('data-object-type') == 'connector':
+            for element in g.iter():
+                fill = element.get('fill', 'none').lower()
+                if fill != 'none' and fill not in black:
+                    errors.append('Connector arrowhead fill must be black: ' + element.get('id', g.get('id', '?')))
     texts = root.findall('.//s:text', NS)
     boxes = [g for g in groups if g.get('data-object-type') == 'text-box']
     if not boxes:
@@ -87,6 +101,7 @@ def inspect_svg(filename, ungrouped_dir=None):
         tree.write(ungrouped_dir / filename.name, encoding='utf-8', xml_declaration=True)
     return {'file': filename.name, 'passed': True, 'text_boxes': len(boxes),
             'objects': len(groups), 'font_sizes': sorted(sizes), 'raster_images': 0,
+            'black_outlines_and_connectors': True,
             'visual_comparison': 'not performed by structural inspection'}
 
 

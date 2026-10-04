@@ -15,7 +15,7 @@
 | 国自然申请 | 对应科学问题、任务、方法、证据和预期认识，含面上多色案例 | [国自然规划](technical-roadmap/references/nsfc-planning.md) |
 | 论文 | 学位论文研究路线、研究论文方法流程，区分研究计划、已完成方法与结论 | [论文规划](technical-roadmap/references/paper-planning.md) · [文字转图教学例](technical-roadmap/references/paper-text-to-roadmap.md) |
 
-两类模式共用绘图工具、输入格式、配色、检查方法及SVG/PNG示例，保留中文宋体、英文和数字Times New Roman、统一字号、紧凑布局、黑色内容框与主箭头、每框一个完整文字对象的约定。用户指定的内容和样式优先；一般任务书和已有图的修改也继续使用此入口。
+两类模式共用绘图工具、输入格式、配色、检查方法及SVG/PNG示例，保留中文宋体、英文和数字Times New Roman、统一字号、紧凑布局、每框一个完整文字对象的约定。所有内容框、阶段框、模块分组框及主箭头、反馈线均为黑色（`#000000`），原有虚实线形式可保留；配色仅用于标题与节点填充、模块浅底。用户指定的内容和样式优先；一般任务书和已有图的修改也继续使用此入口。
 
 将 `technical-roadmap/` 复制到 `~/.codex/skills/` 即可安装。图式和颜色是可选编排方法，不能当作基金委或期刊统一规范，不能用于保证资助或发表。
 
@@ -31,7 +31,7 @@
 
 ### 目标递进式：陶瓷轴承
 
-面上项目52275119：共同输入→温变/乏油两项并行机制→双端支承耦合→振声状态映射。温变支粉红、乏油支绿色、耦合蓝色、振声橙色，结合浅底与深边界形成层次；模型与实测之间的校正用虚线表示。
+面上项目52275119：共同输入→温变/乏油两项并行机制→双端支承耦合→振声状态映射。温变支粉红、乏油支绿色、耦合蓝色、振声橙色，以模块浅底和标题填色形成层次，所有框线为黑色；模型与实测之间的校正用黑色虚线表示。
 
 ![面上基金陶瓷轴承目标递进多色图](technical-roadmap/assets/examples/mianshang-bearing-goal-multicolor.png)
 
@@ -47,7 +47,7 @@
 
 两图均为原生可编辑SVG，统一字号，中文宋体、英文和数字Times New Roman，每框一个完整文字对象。已有优秀青年案例保持其实际类别。
 
-多色来自“模块各用一个色系＋同色深浅层次”。浅底覆盖模块，正文框白底，标题更深，边界再加深，形成丰富颜色同时保留文字清晰度。[配色表与SVG层次方法](technical-roadmap/references/multicolor.md)可用于后续绘制；当前自动工具仍使用全局角色色，多色模块通过原生SVG编排。
+多色来自“模块各用一个色系＋填充的深浅层次”。浅底覆盖模块，正文框白底，标题填色更深；内容框、阶段框和模块分组框均为黑色框线。[配色表与SVG层次方法](technical-roadmap/references/multicolor.md)可用于后续绘制；当前自动工具仍使用全局角色色，多色模块通过原生SVG编排。
 
 ## 绘图结果展示
 
@@ -81,7 +81,7 @@
 
 ### 六种配色
 
-论文参考色、黑白、蓝色、青绿、紫色、暖色，并支持六个角色的自定义颜色。文字与连线对比度会被检查，配色不会改变字体、字号或研究逻辑。
+论文参考色、黑白、蓝色、青绿、紫色、暖色，仅调整标题与节点填色；所有框线、主箭头和反馈线保持黑色。六个颜色角色保留接口兼容，其中 `outer_frame`、`inner_frame`、`line` 只接受 `#000000`，非黑明确报错。文字与填色对比度会被检查，配色不会改变字体、字号或研究逻辑。
 
 ![六种技术路线配色](technical-roadmap/assets/examples/palette-gallery.png)
 
@@ -178,7 +178,7 @@ python technical-roadmap/scripts/check_svg.py output --report checks.json --ungr
 
 其他系统通过 `--chinese-font` 和 `--latin-font` 指定宋体与 Times New Roman 字体文件。输入结构见 [input-schema.md](technical-roadmap/references/input-schema.md)，渲染与拆分检查见 [validation.md](technical-roadmap/references/validation.md)。
 
-JSON中设置 `style.layout: "proposal"` 可采用横向分支标签，设置 `style.color_scheme` 选择配色；`style.colors` 支持六角色的十六进制颜色覆盖。布局选择不改变分支对应关系。交叉边、反馈或分支数量变化应直接编排原生SVG。
+JSON中设置 `style.layout: "proposal"` 可采用横向分支标签，设置 `style.color_scheme` 选择标题与节点填色；`style.colors` 保留六角色，其中 `outer_frame`、`inner_frame`、`line` 固定为 `#000000`，不能覆写为其他颜色。布局选择不改变分支对应关系。交叉边、反馈或分支数量变化应直接编排原生SVG，并保持所有框线与连线黑色。
 
 每个文字框保存为一个矩形加一个完整文字对象，多行及中英混排使用 `tspan`。边框、箭头和粗加号为独立矢量对象。字体、颜色、字号和位置显式记录在对象上，取消分组后不依赖父分组样式。
 

@@ -13,12 +13,12 @@ from PIL import ImageFont
 
 
 PALETTES = {
-    'reference': ('#FFEBB4', '#E0242A', '#477F9F'),
+    'reference': ('#FFEBB4', '#000000', '#000000'),
     'monochrome': ('#FFFFFF', '#000000', '#000000'),
-    'blue': ('#E7EEF5', '#4A6F91', '#7291AD'),
-    'teal': ('#E5F0ED', '#387A78', '#5F9390'),
-    'purple': ('#EEEAF4', '#76668F', '#9484A8'),
-    'warm': ('#F4EBDF', '#9A7051', '#AD8A6C'),
+    'blue': ('#E7EEF5', '#000000', '#000000'),
+    'teal': ('#E5F0ED', '#000000', '#000000'),
+    'purple': ('#EEEAF4', '#000000', '#000000'),
+    'warm': ('#F4EBDF', '#000000', '#000000'),
 }
 COLOR_ROLES = ('title_fill', 'outer_frame', 'inner_frame', 'node_fill', 'text', 'line')
 
@@ -41,6 +41,9 @@ def colors_for(scheme, overrides):
         if not isinstance(color, str) or not re.fullmatch(r'#[0-9A-Fa-f]{6}', color):
             raise ValueError('Every color override must use #RRGGBB: '+role)
         colors[role] = color.upper()
+    for role in ('outer_frame', 'inner_frame', 'line'):
+        if colors[role] != '#000000':
+            raise ValueError(role+' must be #000000. All frames and connectors use black; customize fills instead.')
     for role in ('title_fill', 'node_fill'):
         if contrast(colors['text'], colors[role]) < 4.5:
             raise ValueError('Text contrast is below 4.5:1 against '+role+'. Choose a clearer text/background pair.')
