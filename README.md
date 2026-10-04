@@ -6,6 +6,25 @@
 
 标准技能名称为 `technical-roadmap`，界面显示名称为 **技术路线skill**。核心工作流：源内容核对 → 短节点与分支设计 → 紧凑排版 → 原生 SVG → 渲染和拆分检查。
 
+## 一个skill，两类专业模式
+
+只安装一个 [technical-roadmap](technical-roadmap/SKILL.md) 文件夹，使用同一个 `$technical-roadmap` 调用；根据需求在其中选择国自然或论文模式。
+
+| 模式 | 适用场景 | 规划方法 |
+| --- | --- | --- |
+| 国自然申请 | 对应科学问题、任务、方法、证据和预期认识，含面上多色案例 | [国自然规划](technical-roadmap/references/nsfc-planning.md) |
+| 论文 | 学位论文研究路线、研究论文方法流程，区分研究计划、已完成方法与结论 | [论文规划](technical-roadmap/references/paper-planning.md) · [文字转图教学例](technical-roadmap/references/paper-text-to-roadmap.md) |
+
+两类模式共用绘图工具、输入格式、配色、检查方法及SVG/PNG示例，保留中文宋体、英文和数字Times New Roman、统一字号、紧凑布局、黑色内容框与主箭头、每框一个完整文字对象的约定。用户指定的内容和样式优先；一般任务书和已有图的修改也继续使用此入口。
+
+将 `technical-roadmap/` 复制到 `~/.codex/skills/` 即可安装。图式和颜色是可选编排方法，不能当作基金委或期刊统一规范，不能用于保证资助或发表。
+
+调用示例：
+
+> 请使用 $technical-roadmap 的国自然模式，根据以下研究方案绘制申请书技术路线，重点区分并行任务与证据汇合，采用模块多色，输出图片和可编辑SVG。
+
+> 请使用 $technical-roadmap 的论文模式，根据论文的方法和研究内容绘制技术路线，保持原文事实与依赖关系，采用宋体和Times New Roman，输出图片和可编辑SVG。
+
 ## 面上基金技术路线图
 
 参考公众号公开模板和知乎申请绘图说明，实际查看了大学官网转载的BioSoph图样，再将两项已核实面上项目的公开研究内容绘成下面两种格式。原图未直接复制；公众号模板、教学经验与获资助项目分别注明，知乎例图尚未完成图面核验。详情见[公众号、知乎参考及新绘范围](technical-roadmap/references/mianshang-layouts.md)。
@@ -140,6 +159,9 @@ technical-roadmap/
   references/mianshang-layouts.md
   references/multicolor.md
   references/text-to-roadmap.md
+  references/nsfc-planning.md
+  references/paper-planning.md
+  references/paper-text-to-roadmap.md
   references/validation.md
   assets/example_roadmaps.json
   assets/examples/
