@@ -44,6 +44,24 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线、研
 
 交付用户要求的图片/SVG，说明已完成的检查与实际兼容性限制。不自动生成额外报告或演示文稿，不从绘图请求推断外部发布授权。
 
-## 示例
+## 绘图结果展示
 
 `assets/example_roadmaps.json` 包含材料性能、构件设计、结构性能三个实用示例；`assets/examples/` 保存其可编辑SVG及预览。只在需要版式参考或演示脚本时读取，不把示例文本当作新任务的研究事实。
+
+### 材料性能技术路线
+
+![材料性能技术路线图](assets/examples/material-properties.png)
+
+[查看可编辑SVG](assets/examples/material-properties.svg)
+
+### 构件设计技术路线
+
+![构件设计技术路线图](assets/examples/component-design.png)
+
+[查看可编辑SVG](assets/examples/component-design.svg)
+
+### 结构性能技术路线
+
+![结构性能技术路线图](assets/examples/structural-performance.png)
+
+[查看可编辑SVG](assets/examples/structural-performance.svg)
