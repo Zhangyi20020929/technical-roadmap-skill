@@ -2,6 +2,8 @@
 
 从任务书、PPT、论文或研究方案中提炼逻辑，绘制紧凑的学位论文式、国自然等科研申请式技术路线图，并交付可拆分、可编辑的 SVG。
 
+也支持从纯文字开始：提取对象、任务、方法与输出，判断并行和先后依赖，压缩短节点，规划配色，再制作SVG。[文本到路线图教学](technical-roadmap/references/text-to-roadmap.md)含一个完整的文字输入、要素表、依赖计划及成图示例。只有颜色调整的任务保留已确认的内容、逻辑、字体和布局。
+
 标准技能名称为 `technical-roadmap`，界面显示名称为 **技术路线skill**。核心工作流：源内容核对 → 短节点与分支设计 → 紧凑排版 → 原生 SVG → 渲染和拆分检查。
 
 ## 面上基金技术路线图
@@ -10,21 +12,23 @@
 
 ### 目标递进式：陶瓷轴承
 
-面上项目52275119：共同输入→温变/乏油两项并行机制→双端支承耦合→振声状态映射。三段用浅绿、浅蓝和暖色区分，模型与实测之间的校正用虚线表示。
+面上项目52275119：共同输入→温变/乏油两项并行机制→双端支承耦合→振声状态映射。温变支粉红、乏油支绿色、耦合蓝色、振声橙色，结合浅底与深边界形成层次；模型与实测之间的校正用虚线表示。
 
-![面上基金陶瓷轴承目标递进图](technical-roadmap/assets/examples/mianshang-bearing-goal.png)
+![面上基金陶瓷轴承目标递进多色图](technical-roadmap/assets/examples/mianshang-bearing-goal-multicolor.png)
 
-[可编辑SVG](technical-roadmap/assets/examples/mianshang-bearing-goal.svg) · [项目及公开正文证据](technical-roadmap/references/funded-cases.md)
+[多色可编辑SVG](technical-roadmap/assets/examples/mianshang-bearing-goal-multicolor.svg) · [简洁版本](technical-roadmap/assets/examples/mianshang-bearing-goal.svg) · [项目及公开正文证据](technical-roadmap/references/funded-cases.md)
 
 ### 任务与指标矩阵式：心肌钙敏感受体
 
-面上项目30370577：器官、细胞、分子三列并行，对象准备、干预/检测与观察指标逐行对齐，最后汇入研究目标。三种浅色分组、黑框黑箭头和宽加号，保留各层次专属内容。
+面上项目30370577：器官、细胞、分子三列并行，对象准备、干预/检测与观察指标逐行对齐，最后汇入研究目标。橙、绿、蓝三套模块色配灰色行标签和紫色目标，保持黑框黑箭头与宽加号。
 
-![面上基金心肌CaSR任务与指标矩阵图](technical-roadmap/assets/examples/mianshang-casr-matrix.png)
+![面上基金心肌CaSR任务与指标多色矩阵图](technical-roadmap/assets/examples/mianshang-casr-matrix-multicolor.png)
 
-[可编辑SVG](technical-roadmap/assets/examples/mianshang-casr-matrix.svg) · [项目及公开正文证据](technical-roadmap/references/funded-cases.md)
+[多色可编辑SVG](technical-roadmap/assets/examples/mianshang-casr-matrix-multicolor.svg) · [简洁版本](technical-roadmap/assets/examples/mianshang-casr-matrix.svg) · [项目及公开正文证据](technical-roadmap/references/funded-cases.md)
 
 两图均为原生可编辑SVG，统一字号，中文宋体、英文和数字Times New Roman，每框一个完整文字对象。已有优秀青年案例保持其实际类别。
+
+多色来自“模块各用一个色系＋同色深浅层次”。浅底覆盖模块，正文框白底，标题更深，边界再加深，形成丰富颜色同时保留文字清晰度。[配色表与SVG层次方法](technical-roadmap/references/multicolor.md)可用于后续绘制；当前自动工具仍使用全局角色色，多色模块通过原生SVG编排。
 
 ## 绘图结果展示
 
@@ -134,6 +138,8 @@ technical-roadmap/
   references/nsfc-layouts.md
   references/funded-cases.md
   references/mianshang-layouts.md
+  references/multicolor.md
+  references/text-to-roadmap.md
   references/validation.md
   assets/example_roadmaps.json
   assets/examples/

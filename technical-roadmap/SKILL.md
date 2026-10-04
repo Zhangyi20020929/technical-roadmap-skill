@@ -1,6 +1,6 @@
 ---
 name: technical-roadmap
-description: "从PPT、论文、任务书或研究方案提炼技术路线与实施逻辑，绘制紧凑学位论文式及国自然等科研申请式路线图，支持多配色、原生可编辑SVG和拆分验证。适用于技术路线图绘制、参考图重绘、研究方案图和可编辑矢量交付；普通统计图不适用。"
+description: "从纯文本、PPT、论文、任务书或研究方案规划任务与依赖，绘制紧凑学位论文式及国自然等科研申请式技术路线图，支持模块多色、原生可编辑SVG和拆分验证。适用于文字方案转图、技术路线图绘制、参考图重绘和可编辑矢量交付；普通统计图不适用。"
 ---
 
 # 技术路线skill
@@ -13,6 +13,12 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 - 区分共同输入、并行支线、先后步骤、模型输入、标定、独立验证和最终成果。保持每条试验与相应模型的对应关系。
 - 用户要求原文一致时逐字保留；允许精简时，改成短动作或结果名称，每框通常一至三行。保留关键对象、条件、数字和术语，不新增试验或因果关系。
 - 参考论文样式时实际查看图页，只借鉴布局，不移用其研究内容。已有可用参考图时，不必重复检索文献。
+
+## 从文本规划与制作
+
+用户提供段落、任务说明或需要学习如何从文字制作路线图时，查看 [references/text-to-roadmap.md](references/text-to-roadmap.md)。从原文提取对象、条件、任务、方法和证据，先形成短节点与依赖关系，再选择结构和配色并制作SVG；文字顺序不等于流程顺序。参考内含“文字→要素表→依赖/颜色计划→已生成图”的完整教学示例。
+
+沿用已确认的精简权限、字体和布局。用户只要求颜色修改时，保留内容与逻辑，以现有图逐模块改色；文本学习方法用于新图规划，不触发已有图的重新改写。
 
 ## 紧凑排版
 
@@ -34,6 +40,8 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 自动工具支持 `compact` 和 `proposal` 布局，后者采用横向模块标签、保留全部阶段标签。自动布局仍要求固定分支数量；“3项任务→1次汇总→2类验证”等分支变化或交叉证据应直接编排原生SVG，不能强改研究逻辑。
 
 配色支持 `reference`、`monochrome`、`blue`、`teal`、`purple`、`warm`，也可覆盖标题底、外框、内框、节点底、文字和连线的颜色。按阶段或研究模块分配颜色，同类一致，避免仅靠颜色表达关系。工具检查文字与线条对比度，保持黑白输出可辨认。具体配置见 [input-schema.md](references/input-schema.md)。
+
+用户要求同一张图有更多颜色时，查看 [references/multicolor.md](references/multicolor.md)：按研究模块组合色系，用浅色模块底、中等标题底和深色边界形成层次，内容框与主箭头仍按用户要求设置。多色模块用原生SVG逐组声明，填色背景放在所有连线和节点下方；当前自动工具的整图主题不等于逐模块配色。
 
 ![六种技术路线配色](assets/examples/palette-gallery.png)
 
@@ -66,17 +74,17 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 
 公众号模板阶段分组的版式改编，内容来自已核实面上项目52275119公开申请正文；阶段内保留并行机制，虚线回边表示实验校正。
 
-![陶瓷轴承面上基金目标递进路线图](assets/examples/mianshang-bearing-goal.png)
+![陶瓷轴承面上基金目标递进多色路线图](assets/examples/mianshang-bearing-goal-multicolor.png)
 
-[可编辑SVG](assets/examples/mianshang-bearing-goal.svg) · [公众号、知乎参考及来源范围](references/mianshang-layouts.md)
+[多色可编辑SVG](assets/examples/mianshang-bearing-goal-multicolor.svg) · [简洁版本](assets/examples/mianshang-bearing-goal.svg) · [配色方法](references/multicolor.md) · [来源范围](references/mianshang-layouts.md)
 
 ### 面上基金技术路线图：任务与指标矩阵式
 
 借鉴公众号模板的行列对齐，内容来自已核实面上项目30370577公开申请正文。三个研究层次并行，每列的对象、干预与指标对应。
 
-![心肌CaSR面上基金任务与指标矩阵图](assets/examples/mianshang-casr-matrix.png)
+![心肌CaSR面上基金任务与指标多色矩阵图](assets/examples/mianshang-casr-matrix-multicolor.png)
 
-[可编辑SVG](assets/examples/mianshang-casr-matrix.svg) · [公众号、知乎参考及来源范围](references/mianshang-layouts.md)
+[多色可编辑SVG](assets/examples/mianshang-casr-matrix-multicolor.svg) · [简洁版本](assets/examples/mianshang-casr-matrix.svg) · [配色方法](references/multicolor.md) · [来源范围](references/mianshang-layouts.md)
 
 ### 已资助来源：陶瓷轴承，52275119
 
