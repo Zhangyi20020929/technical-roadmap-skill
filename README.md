@@ -6,7 +6,33 @@
 
 ## 绘图结果展示
 
-下面展示本skill的配色与六张路线图，每张路线图附有可编辑SVG。点击图片可查看完整尺寸。示例用于展示版式，不能替代新任务的原始研究内容。
+下面展示配色、已资助来源的重绘案例和原创版式示例，每张路线图附有可编辑SVG。点击图片可查看完整尺寸。来源性质分别说明，示例不能替代新任务的原始研究内容。
+
+### 已资助来源：陶瓷轴承，52275119
+
+白晓天《面向宽温域乏油条件的陶瓷轴承转子系统动态特性研究》，2022年面上申请。根据公开副本正文20—32页概括重绘，保留“温变间隙＋乏油承载→结构耦合→振声融合→状态映射”及实验校正关系。公开副本来自第三方镜像，获资助题名、主持人与批准号由大学官方页交叉核实；未取得原图8像素，不称原图复刻。
+
+![陶瓷轴承申请正文概括图](technical-roadmap/assets/examples/funded-bearing-52275119.png)
+
+[可编辑SVG](technical-roadmap/assets/examples/funded-bearing-52275119.svg) · [申请正文公开副本](https://pdfcoffee.com/document6a553ef335fef-pdf-free.html) · [主持人官方页](https://jixie.sjzu.edu.cn/info/1021/3102.htm) · [批准号官方记录](https://jixie.sjzu.edu.cn/info/1021/3117.htm)
+
+### 已资助来源：心肌钙敏感受体，30370577
+
+徐长庆《大鼠心肌细胞钙敏感受体的生物学活性及其在心肌缺血/再灌注损伤中的作用》，2003年面上申请。根据公开正文的研究方法、技术路线与实验方案概括重绘，保留器官、细胞、分子三层次并行和各支专属干预、观察指标。作者署名的成功标书分享与中科院原站资助名单相互核对；未取得完整文件下载或原路线图像素。
+
+![心肌钙敏感受体申请正文概括图](technical-roadmap/assets/examples/funded-myocardial-casr-30370577.png)
+
+[可编辑SVG](technical-roadmap/assets/examples/funded-myocardial-casr-30370577.svg) · [申请正文公开预览](https://www.renrendoc.com/paper/95272669.html) · [本人成功标书分享](https://paper.dxy.cn/article/18373) · [2003年度资助名单](https://lifescience.sinh.ac.cn/webadmin/upload/20036321.pdf)
+
+### 已资助项目框架片段：二维材料，61422503
+
+倪振华《二维层状材料的光学与光电性能》，2014年优秀青年科学基金项目。根据其大学官网公开申请经验课件第9页重绘研究框架，保留“光学性质→性能调控与光电器件”及双向关系。课件第5页列出批准号，学院公告确认同题获资助；这份来源是框架片段，不是完整申请书。
+
+![二维材料公开框架概括图](technical-roadmap/assets/examples/funded-layered-material-61422503.png)
+
+[可编辑SVG](technical-roadmap/assets/examples/funded-layered-material-61422503.svg) · [负责人公开课件](https://kjc.seu.edu.cn/_upload/article/bf/05/6659235148ac968c3664fc59d068/fc21d78d-1029-4a40-b353-13dc55afcf40.pdf) · [大学获批公告](https://physics.seu.edu.cn/2014/0818/c23142a258609/pagem.htm)
+
+案例证据、原页码和重绘范围见 [已资助案例来源](technical-roadmap/references/funded-cases.md)。仅分享概括重绘的SVG与预览，不转载申请书全文、个人资料或第三方论文图件。
 
 ### 六种配色
 
@@ -38,7 +64,7 @@
 
 [查看可编辑SVG](technical-roadmap/assets/examples/nsfc-medicine-purple.svg)
 
-新增三图为原创假设研究方案，不代表真实获资助项目或已证实结论。它们以原生SVG直接编排，展示分支数量变化；自动工具适用于固定分支数量。
+上面材料、环境和医学三张图式为原创假设研究方案，不代表真实获资助项目或已证实结论。它们以原生SVG直接编排，展示分支数量变化；自动工具适用于固定分支数量。
 
 布局参考来自实际查看的机构公开资料：西安交大一附院汇编第2、4、6页，以及成都理工公开绘图课件第26、27页。参考方法、公开链接和资料性质见 [国自然布局参考](technical-roadmap/references/nsfc-layouts.md)；这些图式不构成基金委统一绘图规范，仓库不转载原图。
 
@@ -84,6 +110,7 @@ technical-roadmap/
   scripts/check_svg.py
   references/input-schema.md
   references/nsfc-layouts.md
+  references/funded-cases.md
   references/validation.md
   assets/example_roadmaps.json
   assets/examples/

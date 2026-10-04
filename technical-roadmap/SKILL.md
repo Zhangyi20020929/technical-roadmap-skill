@@ -27,6 +27,8 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 
 绘制国自然等研究方案图时，按需查看 [references/nsfc-layouts.md](references/nsfc-layouts.md)，选择证据递进、多分支汇合再验证、双链互补等结构。以科学问题、研究任务与证据的对应关系组织图面；假设、反馈和独立验证只在方案支持时加入，不为套版新增研究环节。
 
+用户要求真实获资助案例时，查看 [references/funded-cases.md](references/funded-cases.md)。分别核对申请内容与资助证据，区分完整申请副本、研究框架片段和原创假设方案；受理号不能当作批准号。根据正文重绘时标明内容页码，不声称未见到的原图已被逐字复刻。
+
 自动工具支持 `compact` 和 `proposal` 布局，后者采用横向模块标签、保留全部阶段标签。自动布局仍要求固定分支数量；“3项任务→1次汇总→2类验证”等分支变化或交叉证据应直接编排原生SVG，不能强改研究逻辑。
 
 配色支持 `reference`、`monochrome`、`blue`、`teal`、`purple`、`warm`，也可覆盖标题底、外框、内框、节点底、文字和连线的颜色。按阶段或研究模块分配颜色，同类一致，避免仅靠颜色表达关系。工具检查文字与线条对比度，保持黑白输出可辨认。具体配置见 [input-schema.md](references/input-schema.md)。
@@ -57,6 +59,30 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 ## 绘图结果展示
 
 `assets/example_roadmaps.json` 包含材料性能、构件设计、结构性能三个实用示例；`assets/examples/` 保存其可编辑SVG及预览。只在需要版式参考或演示脚本时读取，不把示例文本当作新任务的研究事实。
+
+### 已资助来源：陶瓷轴承，52275119
+
+基于同题申请书公开正文的概括重绘，保留两项机制并行、耦合分析与实验校正。申请副本来自公开镜像，资助由大学官方教师页交叉核实。
+
+![陶瓷轴承获资助项目申请正文概括图](assets/examples/funded-bearing-52275119.png)
+
+[可编辑SVG](assets/examples/funded-bearing-52275119.svg) · [来源与内容页码](references/funded-cases.md)
+
+### 已资助来源：心肌钙敏感受体，30370577
+
+基于徐长庆公开分享的申请书正文概括重绘，保留器官、细胞、分子三支并行及各自干预和指标。本人成功标书声明与中科院原站资助名单匹配，完整下载与原路线图像素未取得。
+
+![心肌钙敏感受体获资助申请正文概括图](assets/examples/funded-myocardial-casr-30370577.png)
+
+[可编辑SVG](assets/examples/funded-myocardial-casr-30370577.svg) · [来源与重绘范围](references/funded-cases.md)
+
+### 已资助项目框架片段：二维材料，61422503
+
+基于项目负责人在大学官网公开培训课件中的研究框架，保留性能调控与器件研究的双向关系；此来源不是完整申请书。
+
+![二维材料获资助项目公开框架概括图](assets/examples/funded-layered-material-61422503.png)
+
+[可编辑SVG](assets/examples/funded-layered-material-61422503.svg) · [来源与内容页码](references/funded-cases.md)
 
 ### 科研申请图式：材料科学，蓝色三分支
 
