@@ -4,6 +4,30 @@
 
 标准技能名称为 `technical-roadmap`，界面显示名称为 **技术路线skill**。核心工作流：源内容核对 → 短节点与分支设计 → 紧凑排版 → 原生 SVG → 渲染和拆分检查。
 
+## 绘图结果展示
+
+下面展示本skill生成的三张路线图，每张图附有可编辑SVG。点击图片可查看完整尺寸。示例用于展示版式，不能替代新任务的原始研究内容。
+
+### 材料性能技术路线
+
+![材料性能技术路线图](technical-roadmap/assets/examples/material-properties.png)
+
+[查看可编辑SVG](technical-roadmap/assets/examples/material-properties.svg)
+
+### 构件设计技术路线
+
+![构件设计技术路线图](technical-roadmap/assets/examples/component-design.png)
+
+[查看可编辑SVG](technical-roadmap/assets/examples/component-design.svg)
+
+### 结构性能技术路线
+
+![结构性能技术路线图](technical-roadmap/assets/examples/structural-performance.png)
+
+[查看可编辑SVG](technical-roadmap/assets/examples/structural-performance.svg)
+
+已有示例已核对文字和分支，并通过同一渲染器的取消分组差分检查。新产物仍需逐图检查。跨软件导入可能受字体及SVG支持差异影响，尤其Office“转换为形状”与SVG取消分组不是同一操作。
+
 ## 安装与调用
 
 将本仓库的 `technical-roadmap/` 目录复制到 `~/.codex/skills/`。在 Codex 中使用：
@@ -38,16 +62,5 @@ python technical-roadmap/scripts/check_svg.py output --report checks.json --ungr
 其他系统通过 `--chinese-font` 和 `--latin-font` 指定宋体与 Times New Roman 字体文件。输入结构见 [input-schema.md](technical-roadmap/references/input-schema.md)，渲染与拆分检查见 [validation.md](technical-roadmap/references/validation.md)。
 
 每个文字框保存为一个矩形加一个完整文字对象，多行及中英混排使用 `tspan`。边框、箭头和粗加号为独立矢量对象。字体、颜色、字号和位置显式记录在对象上，取消分组后不依赖父分组样式。
-
-## 示例
-
-三个示例展示多输入、并行试验、模型分析和综合成果。它们是版式参考，不能替代新任务的原始研究内容。
-
-| 材料性能 | 构件设计 | 结构性能 |
-|---|---|---|
-| ![材料性能路线图](technical-roadmap/assets/examples/material-properties.png) | ![构件设计路线图](technical-roadmap/assets/examples/component-design.png) | ![结构性能路线图](technical-roadmap/assets/examples/structural-performance.png) |
-| [可编辑 SVG](technical-roadmap/assets/examples/material-properties.svg) | [可编辑 SVG](technical-roadmap/assets/examples/component-design.svg) | [可编辑 SVG](technical-roadmap/assets/examples/structural-performance.svg) |
-
-已有示例已核对文字和分支，并通过同一渲染器的取消分组差分检查。新产物仍需逐图检查。跨软件导入可能受字体及SVG支持差异影响，尤其Office“转换为形状”与SVG取消分组不是同一操作。
 
 仓库不包含原始任务书、第三方论文PDF、商业字体、账号凭据或电脑上的绝对路径。
