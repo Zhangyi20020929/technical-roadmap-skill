@@ -4,6 +4,28 @@
 
 标准技能名称为 `technical-roadmap`，界面显示名称为 **技术路线skill**。核心工作流：源内容核对 → 短节点与分支设计 → 紧凑排版 → 原生 SVG → 渲染和拆分检查。
 
+## 面上基金技术路线图
+
+参考公众号公开模板和知乎申请绘图说明，实际查看了大学官网转载的BioSoph图样，再将两项已核实面上项目的公开研究内容绘成下面两种格式。原图未直接复制；公众号模板、教学经验与获资助项目分别注明，知乎例图尚未完成图面核验。详情见[公众号、知乎参考及新绘范围](technical-roadmap/references/mianshang-layouts.md)。
+
+### 目标递进式：陶瓷轴承
+
+面上项目52275119：共同输入→温变/乏油两项并行机制→双端支承耦合→振声状态映射。三段用浅绿、浅蓝和暖色区分，模型与实测之间的校正用虚线表示。
+
+![面上基金陶瓷轴承目标递进图](technical-roadmap/assets/examples/mianshang-bearing-goal.png)
+
+[可编辑SVG](technical-roadmap/assets/examples/mianshang-bearing-goal.svg) · [项目及公开正文证据](technical-roadmap/references/funded-cases.md)
+
+### 任务与指标矩阵式：心肌钙敏感受体
+
+面上项目30370577：器官、细胞、分子三列并行，对象准备、干预/检测与观察指标逐行对齐，最后汇入研究目标。三种浅色分组、黑框黑箭头和宽加号，保留各层次专属内容。
+
+![面上基金心肌CaSR任务与指标矩阵图](technical-roadmap/assets/examples/mianshang-casr-matrix.png)
+
+[可编辑SVG](technical-roadmap/assets/examples/mianshang-casr-matrix.svg) · [项目及公开正文证据](technical-roadmap/references/funded-cases.md)
+
+两图均为原生可编辑SVG，统一字号，中文宋体、英文和数字Times New Roman，每框一个完整文字对象。已有优秀青年案例保持其实际类别。
+
 ## 绘图结果展示
 
 下面展示配色、已资助来源的重绘案例和原创版式示例，每张路线图附有可编辑SVG。点击图片可查看完整尺寸。来源性质分别说明，示例不能替代新任务的原始研究内容。
@@ -111,6 +133,7 @@ technical-roadmap/
   references/input-schema.md
   references/nsfc-layouts.md
   references/funded-cases.md
+  references/mianshang-layouts.md
   references/validation.md
   assets/example_roadmaps.json
   assets/examples/

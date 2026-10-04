@@ -23,7 +23,9 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 - 无总标题、图注或额外说明是本项目示例的默认风格；是否添加由用户决定。黑白或浅黄阶段条、红色外虚线、蓝色内虚线均可按参考选择。
 - 加号只表示共同输入、互补分析或成果组合，不能代替先后或因果箭头。需要加号时用宽粗的原生形状，避免把它当作普通细小字符。
 
-## 科研申请图式与配色
+## 面上基金技术路线图
+
+用户需要面上申请图式、公众号/知乎参考或同类格式重绘时，按需查看 [references/mianshang-layouts.md](references/mianshang-layouts.md)，选择目标递进或任务与指标矩阵等结构。先区分实际看图与仅阅读教学文字，参考模板只提供排版方式，不构成获资助证据；已有优青等类别不得因分区命名改称面上项目。
 
 绘制国自然等研究方案图时，按需查看 [references/nsfc-layouts.md](references/nsfc-layouts.md)，选择证据递进、多分支汇合再验证、双链互补等结构。以科学问题、研究任务与证据的对应关系组织图面；假设、反馈和独立验证只在方案支持时加入，不为套版新增研究环节。
 
@@ -59,6 +61,22 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线与实
 ## 绘图结果展示
 
 `assets/example_roadmaps.json` 包含材料性能、构件设计、结构性能三个实用示例；`assets/examples/` 保存其可编辑SVG及预览。只在需要版式参考或演示脚本时读取，不把示例文本当作新任务的研究事实。
+
+### 面上基金技术路线图：目标递进式
+
+公众号模板阶段分组的版式改编，内容来自已核实面上项目52275119公开申请正文；阶段内保留并行机制，虚线回边表示实验校正。
+
+![陶瓷轴承面上基金目标递进路线图](assets/examples/mianshang-bearing-goal.png)
+
+[可编辑SVG](assets/examples/mianshang-bearing-goal.svg) · [公众号、知乎参考及来源范围](references/mianshang-layouts.md)
+
+### 面上基金技术路线图：任务与指标矩阵式
+
+借鉴公众号模板的行列对齐，内容来自已核实面上项目30370577公开申请正文。三个研究层次并行，每列的对象、干预与指标对应。
+
+![心肌CaSR面上基金任务与指标矩阵图](assets/examples/mianshang-casr-matrix.png)
+
+[可编辑SVG](assets/examples/mianshang-casr-matrix.svg) · [公众号、知乎参考及来源范围](references/mianshang-layouts.md)
 
 ### 已资助来源：陶瓷轴承，52275119
 
