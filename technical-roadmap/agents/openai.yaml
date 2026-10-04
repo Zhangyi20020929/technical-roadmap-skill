@@ -1,4 +1,4 @@
 interface:
   display_name: "技术路线skill"
-  short_description: "提炼研究逻辑，绘制紧凑论文式技术路线图并导出可拆分编辑的SVG"
-  default_prompt: "请使用 $technical-roadmap 根据我提供的材料绘制紧凑技术路线图，输出可编辑SVG并检查拆分后的文字和形状。"
+  short_description: "绘制论文与科研申请技术路线图，支持多配色、可编辑SVG与拆分检查"
+  default_prompt: "请使用 $technical-roadmap 根据材料选择适合论文或国自然申请书的技术路线结构与配色，输出图片预览和可编辑SVG，并检查字体、逻辑及拆分后的形状。"

@@ -12,6 +12,46 @@ from xml.sax.saxutils import escape, quoteattr
 from PIL import ImageFont
 
 
+PALETTES = {
+    'reference': ('#FFEBB4', '#E0242A', '#477F9F'),
+    'monochrome': ('#FFFFFF', '#000000', '#000000'),
+    'blue': ('#E7EEF5', '#4A6F91', '#7291AD'),
+    'teal': ('#E5F0ED', '#387A78', '#5F9390'),
+    'purple': ('#EEEAF4', '#76668F', '#9484A8'),
+    'warm': ('#F4EBDF', '#9A7051', '#AD8A6C'),
+}
+COLOR_ROLES = ('title_fill', 'outer_frame', 'inner_frame', 'node_fill', 'text', 'line')
+
+
+def contrast(a, b):
+    def luminance(color):
+        rgb = [int(color[i:i+2], 16)/255 for i in (1, 3, 5)]
+        linear = [c/12.92 if c <= .04045 else ((c+.055)/1.055)**2.4 for c in rgb]
+        return sum(c*w for c, w in zip(linear, (.2126, .7152, .0722)))
+    high, low = sorted((luminance(a), luminance(b)), reverse=True)
+    return (high+.05)/(low+.05)
+
+
+def colors_for(scheme, overrides):
+    title, outer, inner = PALETTES[scheme]
+    colors = dict(zip(COLOR_ROLES, (title, outer, inner, '#FFFFFF', '#000000', '#000000')))
+    if not isinstance(overrides, dict) or set(overrides)-set(COLOR_ROLES):
+        raise ValueError('colors accepts only '+', '.join(COLOR_ROLES)+'.')
+    for role, color in overrides.items():
+        if not isinstance(color, str) or not re.fullmatch(r'#[0-9A-Fa-f]{6}', color):
+            raise ValueError('Every color override must use #RRGGBB: '+role)
+        colors[role] = color.upper()
+    for role in ('title_fill', 'node_fill'):
+        if contrast(colors['text'], colors[role]) < 4.5:
+            raise ValueError('Text contrast is below 4.5:1 against '+role+'. Choose a clearer text/background pair.')
+    for role in ('outer_frame', 'inner_frame', 'line'):
+        if contrast(colors[role], '#FFFFFF') < 3:
+            raise ValueError('Line/frame contrast is below 3:1 on white: '+role)
+    if contrast(colors['line'], colors['node_fill']) < 3 or contrast(colors['line'], colors['title_fill']) < 3:
+        raise ValueError('line must contrast at least 3:1 with node_fill and title_fill.')
+    return colors
+
+
 def num(value):
     return f'{value:.6f}'.rstrip('0').rstrip('.')
 
@@ -25,7 +65,7 @@ def bottom(node):
 
 
 class Roadmap:
-    def __init__(self, font_size, chinese_font, latin_font, monochrome=False):
+    def __init__(self, font_size, chinese_font, latin_font, colors, layout='compact'):
         self.size = font_size
         self.song = ImageFont.truetype(str(chinese_font), font_size)
         self.times = ImageFont.truetype(str(latin_font), font_size)
@@ -34,9 +74,9 @@ class Roadmap:
         if self.times.getname()[0].replace(' ', '').lower() != 'timesnewroman':
             raise ValueError('Latin font must be Times New Roman.')
         self.scale = font_size / 22
-        self.yellow = '#FFFFFF' if monochrome else '#FFEBB4'
-        self.red = '#000000' if monochrome else '#E0242A'
-        self.blue = '#000000' if monochrome else '#477F9F'
+        self.yellow, self.red, self.blue = (colors[k] for k in COLOR_ROLES[:3])
+        self.node_fill, self.text_color, self.line_color = (colors[k] for k in COLOR_ROLES[3:])
+        self.proposal = layout == 'proposal'
         self.parts, self.counts = [], {}
 
     def u(self, value):
@@ -54,14 +94,15 @@ class Roadmap:
         lines = text.split('\n')
         return max(self.measure(s) for s in lines) + self.u(12), len(lines) * self.size * 1.16 + self.u(8)
 
-    def place(self, text, mid, y, fill='#FFFFFF'):
+    def place(self, text, mid, y, fill=None):
         w, h = self.node_size(text)
-        return dict(text=text, x=mid-w/2, y=y, w=w, h=h, fill=fill)
+        return dict(text=text, x=mid-w/2, y=y, w=w, h=h, fill=fill or self.node_fill)
 
     def layout(self, graph):
         specs = []
         for index, stage in enumerate(graph['stages']):
             split = index == len(graph['stages']) - 1
+            horizontal = split or self.proposal
             gap = self.u((32 if len(stage['groups']) == 4 else 38) if split else 10)
             groups = []
             for group in stage['groups']:
@@ -70,18 +111,18 @@ class Roadmap:
                 rw = [sum(self.node_size(n)[0] for n in row) + self.u(26)*(len(row)-1) for row in rows]
                 stack_h = sum(rh) + self.u(8)*(len(rows)-1)
                 label_h = len(group['label'])*self.u(24.3) + self.u(8)
-                pw = max(rw) + self.u(12 if split else 46)
-                ph = max(stack_h+self.u(12), 0 if split else label_h+self.u(8))
+                pw = max(rw) + self.u(12 if horizontal else 46)
+                ph = max(stack_h+self.u(12), 0 if horizontal else label_h+self.u(8))
                 hw, hh = self.node_size(group['label'])
                 groups.append(dict(label=group['label'], rows=rows, chain=group.get('chain', False),
                                    rh=rh, rw=rw, stack_h=stack_h, label_h=label_h, pw=pw, ph=ph,
-                                   w=max(pw+self.u(12), hw+self.u(12)) if split else pw,
-                                   h=self.u(18)+hh+ph if split else ph))
+                                   w=max(pw+self.u(12), hw+self.u(12)) if horizontal else pw,
+                                   h=self.u(18)+hh+ph if horizontal else ph))
             row_w = sum(p['w'] for p in groups) + gap*(len(groups)-1)
             hw, hh = self.node_size(stage['label'])
             specs.append(dict(label=stage['label'], split=split, gap=gap, groups=groups, row_w=row_w,
-                              w=row_w if split else max(row_w+self.u(12), hw+self.u(12)),
-                              h=(0 if split else self.u(19)+hh) + max(p['h'] for p in groups)))
+                              w=row_w if split and not self.proposal else max(row_w+self.u(12), hw+self.u(12)),
+                              h=(0 if split and not self.proposal else self.u(19)+hh) + max(p['h'] for p in groups)))
         iw = max(sum(self.node_size(n)[0] for n in graph['inputs']) + self.u(26)*(len(graph['inputs'])-1),
                  self.node_size(graph['inputLabel'])[0]) + self.u(12)
         ow = sum(self.node_size(n)[0] for n in graph.get('outputs', [])) + self.u(22)*max(0, len(graph.get('outputs', []))-1)
@@ -99,18 +140,21 @@ class Roadmap:
         y, stages = bottom(inputs)+self.u(14), []
         for spec in specs:
             stage = dict(x=(width-spec['w'])/2, y=y, w=spec['w'], h=spec['h'], split=spec['split'], groups=[])
-            if not stage['split']:
+            if not stage['split'] or self.proposal:
                 stage['header'] = self.place(spec['label'], width/2, y+self.u(5), self.yellow)
             gx = (width-spec['row_w'])/2
-            gy = y if stage['split'] else bottom(stage['header'])+self.u(8)
+            gy = bottom(stage['header'])+self.u(8) if 'header' in stage else y
             for q in spec['groups']:
-                group = dict(x=gx+(q['w']-q['pw'])/2 if stage['split'] else gx, y=gy,
+                horizontal = stage['split'] or self.proposal
+                group = dict(x=gx+(q['w']-q['pw'])/2 if horizontal else gx, y=gy,
                              w=q['pw'], h=q['ph'], label=q['label'], chain=q['chain'], rows=[])
-                if stage['split']:
-                    group['outer'] = dict(x=gx, y=y, w=q['w'], h=q['h'])
-                    group['header'] = self.place(q['label'], gx+q['w']/2, y+self.u(4), self.yellow)
+                if horizontal:
+                    group['slot'] = dict(x=gx, y=gy, w=q['w'], h=q['h'])
+                    if stage['split'] and not self.proposal:
+                        group['outer'] = group['slot']
+                    group['header'] = self.place(q['label'], gx+q['w']/2, gy+self.u(4), self.yellow)
                     group['y'] = bottom(group['header'])+self.u(8)
-                group['flow_x'] = group['x'] + (group['w']/2 if stage['split'] else (group['w']+self.u(34))/2)
+                group['flow_x'] = group['x'] + (group['w']/2 if horizontal else (group['w']+self.u(34))/2)
                 ry = group['y']+(group['h']-q['stack_h'])/2
                 for j, row in enumerate(q['rows']):
                     nx, placed = group['flow_x']-q['rw'][j]/2, []
@@ -120,11 +164,11 @@ class Roadmap:
                         nx += nw+self.u(26)
                     group['rows'].append(placed)
                     ry += q['rh'][j]+self.u(8)
-                if not stage['split']:
+                if not horizontal:
                     group['strip'] = dict(text=q['label'], x=group['x']+self.u(6), y=group['y']+(group['h']-q['label_h'])/2,
                                           w=self.u(28), h=q['label_h'], fill=self.yellow)
-                group['top'] = group['header']['y'] if stage['split'] else group['y']
-                group['bottom'] = bottom(group['outer']) if stage['split'] else bottom(group)
+                group['top'] = group['header']['y'] if horizontal else group['y']
+                group['bottom'] = bottom(group['outer']) if 'outer' in group else bottom(group)
                 stage['groups'].append(group)
                 gx += q['w']+spec['gap']
             stages.append(stage)
@@ -148,7 +192,8 @@ class Roadmap:
     def group(self, kind, body, label=''):
         self.parts.append(f'<g id="{self.ident(kind)}" data-object-type="{kind}" aria-label={quoteattr(label)}>{body}</g>')
 
-    def rect(self, r, fill='#FFFFFF', stroke='#000000', width=1.25, dash=''):
+    def rect(self, r, fill='#FFFFFF', stroke=None, width=1.25, dash=''):
+        stroke = stroke or self.line_color
         return (f'<rect id="{self.ident("rectangle")}" x="{num(r["x"])}" y="{num(r["y"])}" width="{num(r["w"])}" height="{num(r["h"])}" '
                 f'fill="{fill}" stroke="{stroke}" stroke-width="{num(self.u(width))}" stroke-linecap="{"round" if dash else "butt"}" stroke-linejoin="miter"'
                 + (f' stroke-dasharray="{dash}"' if dash else '') + '/>')
@@ -159,7 +204,7 @@ class Roadmap:
 
     def line(self, points, arrow=False):
         d = ' '.join(('M' if i == 0 else 'L')+num(x)+' '+num(y) for i, (x, y) in enumerate(points))
-        body = f'<path id="{self.ident("line")}" d="{d}" fill="none" stroke="#000000" stroke-width="{num(self.u(1.25))}" stroke-linejoin="miter" stroke-linecap="butt"/>'
+        body = f'<path id="{self.ident("line")}" d="{d}" fill="none" stroke="{self.line_color}" stroke-width="{num(self.u(1.25))}" stroke-linejoin="miter" stroke-linecap="butt"/>'
         if arrow:
             x, y = points[-1]
             px, py = points[-2]
@@ -167,7 +212,7 @@ class Roadmap:
             vertices = [(x, y), (x-z*math.cos(a)+k*math.sin(a), y-z*math.sin(a)-k*math.cos(a)),
                         (x-z*math.cos(a)-k*math.sin(a), y-z*math.sin(a)+k*math.cos(a))]
             pairs = ' '.join(num(x)+','+num(y) for x, y in vertices)
-            body += f'<polygon id="{self.ident("arrowhead")}" points="{pairs}" fill="#000000" stroke="none"/>'
+            body += f'<polygon id="{self.ident("arrowhead")}" points="{pairs}" fill="{self.line_color}" stroke="none"/>'
         self.group('connector', body)
 
     def fan(self, before, after):
@@ -185,7 +230,7 @@ class Roadmap:
         fx = group['flow_x']
         if header and header['x']-self.u(7) <= fx <= header['x']+header['w']+self.u(7):
             rx = header['x']-self.u(8) if fx < center(header) else header['x']+header['w']+self.u(8)
-            turn = group['y']-self.u(6)
+            turn = group['top']-self.u(6)
             points = [(x, y), (x, upper), (rx, upper), (rx, turn), (fx, turn), (fx, group['top'])]
         else:
             points = [(x, y), (x, upper), (fx, upper), (fx, group['top'])]
@@ -200,7 +245,7 @@ class Roadmap:
         y = top+(self.size*1.16-asc-desc)/2+asc
         spans = []
         for run, font, family in runs:
-            spans.append(f'<tspan id="{self.ident("text-run")}" x="{num(x)}" y="{num(y)}" font-family="{family}" font-size="{self.size}" fill="#000000" '
+            spans.append(f'<tspan id="{self.ident("text-run")}" x="{num(x)}" y="{num(y)}" font-family="{family}" font-size="{self.size}" fill="{self.text_color}" '
                          f'style="font-family:\'{family}\';font-size:{self.size}px;font-weight:normal;font-style:normal">{escape(run)}</tspan>')
             x += font.getlength(run)
         return ''.join(spans)
@@ -210,7 +255,7 @@ class Roadmap:
         line_h = self.u(24.3) if vertical else self.size*1.16
         body = ''.join(self.text_line(s, center(node), node['y']+self.u(4)+i*line_h) for i, s in enumerate(lines))
         body = (self.rect(node, node['fill']) + f'<text id="{self.ident("text")}" xml:space="preserve" font-family="SimSun" font-size="{self.size}" '
-                f'font-weight="normal" font-style="normal" fill="#000000">{body}</text>')
+                f'font-weight="normal" font-style="normal" fill="{self.text_color}">{body}</text>')
         self.group('text-box', body, node['text'].replace('\n', ' / '))
 
     def plus(self, x, y, size, color):
@@ -224,7 +269,7 @@ class Roadmap:
         l = self.layout(graph)
         self.boundary(l['inputs'], True)
         for stage in l['stages']:
-            if not stage['split']:
+            if not stage['split'] or self.proposal:
                 self.boundary(stage, True)
             for group in stage['groups']:
                 if 'outer' in group:
@@ -275,7 +320,7 @@ class Roadmap:
         for stage in l['stages']:
             if stage['split']:
                 for a, b in zip(stage['groups'], stage['groups'][1:]):
-                    self.plus((a['outer']['x']+a['outer']['w']+b['outer']['x'])/2, stage['y']+stage['h']/2,
+                    self.plus((a['slot']['x']+a['slot']['w']+b['slot']['x'])/2, stage['y']+stage['h']/2,
                               self.u(24 if len(stage['groups']) == 4 else 30), self.red)
             for group in stage['groups']:
                 for row in group['rows']:
@@ -346,16 +391,18 @@ def main():
         data = json.loads(args.input.read_text(encoding='utf-8-sig'))
         validate(data)
         style = data.get('style', {})
-        if not isinstance(style, dict) or set(style)-{'font_size', 'color_scheme'}:
-            raise ValueError('style accepts only font_size and color_scheme.')
+        if not isinstance(style, dict) or set(style)-{'font_size', 'color_scheme', 'colors', 'layout'}:
+            raise ValueError('style accepts only font_size, color_scheme, colors and layout.')
         size, scheme = style.get('font_size', 22), style.get('color_scheme', 'reference')
-        if isinstance(size, bool) or not isinstance(size, int) or not 10 <= size <= 48 or scheme not in ('reference', 'monochrome'):
-            raise ValueError('font_size must be an integer 10–48; color_scheme is reference or monochrome.')
+        layout = style.get('layout', 'compact')
+        if isinstance(size, bool) or not isinstance(size, int) or not 10 <= size <= 48 or scheme not in PALETTES or layout not in ('compact', 'proposal'):
+            raise ValueError('font_size must be an integer 10–48; color_scheme: '+', '.join(PALETTES)+'; layout: compact or proposal.')
+        colors = colors_for(scheme, style.get('colors', {}))
         font_dir = Path(os.environ.get('WINDIR', ''))/'Fonts'
         song, times = args.chinese_font or font_dir/'simsun.ttc', args.latin_font or font_dir/'times.ttf'
         if not song.is_file() or not times.is_file():
             raise ValueError('Required fonts are missing. Supply --chinese-font (SimSun) and --latin-font (Times New Roman); no substitute is used.')
-        renderer = Roadmap(size, song, times, scheme == 'monochrome')
+        renderer = Roadmap(size, song, times, colors, layout)
         rendered = [(graph['id'], renderer.render(graph)) for graph in data['diagrams']]
         args.output_dir.mkdir(parents=True, exist_ok=True)
         for name, svg in rendered:

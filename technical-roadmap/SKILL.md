@@ -1,6 +1,6 @@
 ---
 name: technical-roadmap
-description: "从PPT、论文、任务书或研究方案提炼技术路线、研究流程和实施方案逻辑，绘制紧凑学位论文式路线图，导出原生可编辑SVG并验证拆分、字体和形状。适用于技术路线图绘制、参考图重绘、压缩排版和可编辑矢量交付；普通统计图不适用。"
+description: "从PPT、论文、任务书或研究方案提炼技术路线与实施逻辑，绘制紧凑学位论文式及国自然等科研申请式路线图，支持多配色、原生可编辑SVG和拆分验证。适用于技术路线图绘制、参考图重绘、研究方案图和可编辑矢量交付；普通统计图不适用。"
 ---
 
 # 技术路线skill
@@ -22,6 +22,16 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线、研
 - 中文默认宋体（SimSun），英文和数字默认 Times New Roman；默认全图统一字号，用户指定时替换。混合文字在同一文字对象内用不同字体的段落片段。
 - 无总标题、图注或额外说明是本项目示例的默认风格；是否添加由用户决定。黑白或浅黄阶段条、红色外虚线、蓝色内虚线均可按参考选择。
 - 加号只表示共同输入、互补分析或成果组合，不能代替先后或因果箭头。需要加号时用宽粗的原生形状，避免把它当作普通细小字符。
+
+## 科研申请图式与配色
+
+绘制国自然等研究方案图时，按需查看 [references/nsfc-layouts.md](references/nsfc-layouts.md)，选择证据递进、多分支汇合再验证、双链互补等结构。以科学问题、研究任务与证据的对应关系组织图面；假设、反馈和独立验证只在方案支持时加入，不为套版新增研究环节。
+
+自动工具支持 `compact` 和 `proposal` 布局，后者采用横向模块标签、保留全部阶段标签。自动布局仍要求固定分支数量；“3项任务→1次汇总→2类验证”等分支变化或交叉证据应直接编排原生SVG，不能强改研究逻辑。
+
+配色支持 `reference`、`monochrome`、`blue`、`teal`、`purple`、`warm`，也可覆盖标题底、外框、内框、节点底、文字和连线的颜色。按阶段或研究模块分配颜色，同类一致，避免仅靠颜色表达关系。工具检查文字与线条对比度，保持黑白输出可辨认。具体配置见 [input-schema.md](references/input-schema.md)。
+
+![六种技术路线配色](assets/examples/palette-gallery.png)
 
 ## 可编辑输出
 
@@ -47,6 +57,26 @@ description: "从PPT、论文、任务书或研究方案提炼技术路线、研
 ## 绘图结果展示
 
 `assets/example_roadmaps.json` 包含材料性能、构件设计、结构性能三个实用示例；`assets/examples/` 保存其可编辑SVG及预览。只在需要版式参考或演示脚本时读取，不把示例文本当作新任务的研究事实。
+
+### 科研申请图式：材料科学，蓝色三分支
+
+![界面缺陷与疲劳裂纹的原创假设研究示例](assets/examples/nsfc-material-blue.png)
+
+[查看可编辑SVG](assets/examples/nsfc-material-blue.svg)
+
+### 科研申请图式：环境科学，青绿双链
+
+![河岸带氮转化的原创假设研究示例](assets/examples/nsfc-environment-teal.png)
+
+[查看可编辑SVG](assets/examples/nsfc-environment-teal.svg)
+
+### 科研申请图式：医学，紫色分支变化
+
+![类器官响应的原创假设研究示例](assets/examples/nsfc-medicine-purple.png)
+
+[查看可编辑SVG](assets/examples/nsfc-medicine-purple.svg)
+
+以上三图为原创假设研究方案，用于示范布局，不代表真实申请、获资助项目或已证实研究结论。其分支变化采用原生SVG直接编排；自动工具的JSON输入范围以输入说明为准。
 
 ### 材料性能技术路线
 
